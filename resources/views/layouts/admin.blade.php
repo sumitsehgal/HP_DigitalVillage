@@ -284,6 +284,15 @@ to get the desired effect
 
 <script>
 
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
 $(function () {
   'use strict'
 
@@ -303,9 +312,11 @@ $(function () {
       //data = $.parseJSON(data);
       var lbls = [];
       var vals = [];
+      var colors = [];
       $.each(data, function(i, v){
           lbls.push(v.first_name);
           vals.push(v.total);
+          colors.push(getRandomColor());
       })
 
       var $salesChart = $('#sales-chart')
@@ -315,8 +326,8 @@ $(function () {
           labels  : lbls,
           datasets: [
             {
-              backgroundColor: '#3FA982',
-              borderColor    : '#3FA982',
+              backgroundColor: colors,
+              borderColor    : colors,
               data           : vals
             }
           ]
@@ -450,7 +461,6 @@ $.ajax({
       }
     })
 
-    console.log(marriageVals);
     var ctx = $('#martial-status')
     var myPieChart = new Chart(ctx, {
         type: 'doughnut',
@@ -499,12 +509,14 @@ $.ajax({
 
         var lbls = month;
         var vals = [];
+        var colors = [];
         for(var i =0; i<12; i++)
         {
           vals[i] = 0;
         }
         $.each(data, function(i, v){
             vals[v.monthno-1] = v.total;
+            colors.push(getRandomColor());
         });
 
         var $visitorsChart = $('#visitors-chart')
@@ -515,9 +527,9 @@ $.ajax({
               type                : 'line',
               data                : vals,
               backgroundColor     : 'transparent',
-              borderColor         : '#3FA982',
-              pointBorderColor    : '#3FA982',
-              pointBackgroundColor: '#3FA982',
+              borderColor         : colors,
+              pointBorderColor    : colors,
+              pointBackgroundColor: colors,
               fill                : false
             }]
           },
@@ -540,7 +552,7 @@ $.ajax({
                 gridLines: {
                   display      : true,
                   lineWidth    : '4px',
-                  color        : 'rgba(0, 0, 0, .2)',
+                  color        : 'rgba(0, 100, 255, .8)',
                   zeroLineColor: 'transparent'
                 },
                 ticks    : $.extend({

@@ -27,8 +27,8 @@
               <div class="info-box">
                 <span class="info-box-icon @if($dt->is_active == 0) bg-danger @else bg-success @endif""><i class="far fa-user"></i></span>
                 <div class="info-box-content">
-                  <span class="info-box-text">{{$dt->getStatus()}} Users</span>
-                  <span class="info-box-number">{{$dt->total}}</span>
+                  <span class="info-box-number">{{$dt->getStatus()}} Students</span>
+                  <span class="info-box-text">{{$dt->total}}</span>
                 </div>
                 <!-- /.info-box-content -->
               </div>
@@ -48,8 +48,8 @@
                   <span class="info-box-icon @if($dt->is_active == 0) bg-danger @else bg-success @endif"><i class="far fa-flag"></i></span>
 
                   <div class="info-box-content">
-                    <span class="info-box-text">{{$dt->getStatus()}} Centers</span>
-                    <span class="info-box-number">{{$dt->total}}</span>
+                    <span class="info-box-number">{{$dt->getStatus()}} Centers</span>
+                    <span class="info-box-text">{{$dt->total}}</span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
@@ -64,8 +64,8 @@
               <span class="info-box-icon bg-warning"><i class="far fa-user"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Total Users</span>
-                <span class="info-box-number">
+                <span class="info-box-number">Total Students</span>
+                <span class="info-box-text">
                   {{$studentCollectiveData->sum('total')}}
                 </span>
               </div>
@@ -78,8 +78,8 @@
               <span class="info-box-icon bg-warning"><i class="far fa-flag"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Total Centers</span>
-                <span class="info-box-number">{{$centerCollectiveData->sum('total')}}</span>
+                <span class="info-box-number">Total Centers</span>
+                <span class="info-box-text">{{$centerCollectiveData->sum('total')}}</span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -320,7 +320,7 @@
 
                 <div class="d-flex flex-row justify-content-end">
                   <span class="mr-2">
-                    <i class="fas fa-square text-primary"></i> Student Registration
+                    <i class="fas fa-square text-primary" style="color:rgba(0, 100, 255, .8) !important;"></i> Student Registration
                   </span>
 
                   <!-- <span>

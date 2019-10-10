@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\UserRegistration;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redirect;
 
 class StudentController extends Controller
 {
@@ -99,8 +102,13 @@ class StudentController extends Controller
         if(empty($student->parent_id))
             $student->parent_id = Auth::user()->id;
         $student->role = "student";
+        $password = $student->password;
         $student->password = bcrypt($student->password);
         $student->save();
+
+        $center = User::find($student->parent_id);
+
+        Mail::to($student->email)->send(new UserRegistration($student, $center, $password));
         return redirect('/students/');
     }
 
@@ -157,6 +165,13 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $deletedUser = User::findOrFail($id);
+        $user = Auth::user();
+        if($user->isAdmin() || ( $user->isCenter() && $user->id == $deletedUser->parent_id ))
+        {
+            $deletedUser->delete();
+            return Redirect::back()->withErrors(['msg', 'The User has been deleted.']);
+        }
+        return Redirect::back()->withErrors(['msg', 'The User can not be deleted.']);        
     }
 }

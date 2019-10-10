@@ -58,7 +58,13 @@
                                 <td>{{$student->getStatus()}}</td>   
                                 <td>@if($student->parent) {{$student->parent->name()}} @endif</td>    
                                 <td><a href="/students/{{$student->id}}/edit">Edit</a></td>    
-                                <td><a href="/students/{{$student->id}}/edit">Delete</a></td>  
+                                <td>
+                                  <a href="javascript:void(0);" class="delete-btn">Delete</a>
+                                    <form action="/students/{{$student->id}}" method="post">
+                                    @csrf
+                                      @method('DELETE')
+                                    </form>
+                                </td>  
                                 <td><a href="/user/{{$student->id}}/password">Change Password</a></td>    
                             <tr>
                         @empty

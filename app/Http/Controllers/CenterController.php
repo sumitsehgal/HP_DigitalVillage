@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class CenterController extends Controller
 {
@@ -152,6 +153,13 @@ class CenterController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $deletedUser = User::findOrFail($id);
+        $user = Auth::user();
+        if($user->isAdmin() || ( $user->isCenter() && $user->id == $deletedUser->parent_id ))
+        {
+            $deletedUser->delete();
+            return Redirect::back()->withErrors(['msg', 'The Center has been deleted.']);
+        }
+        return Redirect::back()->withErrors(['msg', 'The Center can not be deleted.']);        
     }
 }

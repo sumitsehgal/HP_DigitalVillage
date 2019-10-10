@@ -396,3 +396,18 @@
     return $block
   }
 })(jQuery)
+
+
+$(document).ready(function(){
+
+  $('.delete-btn').on('click', function(e){
+
+    e.preventDefault();
+    if(confirm("Do you really want to delete?"))
+    {
+      $(this).next().submit();
+    }
+    return false;
+  });
+});
+

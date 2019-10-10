@@ -62,7 +62,13 @@
                                 <td>{{$center->getStatus()}}</td>   
                                 <td>{{$center->children->count()}}</td>    
                                 <td><a href="/centers/{{$center->id}}/edit">Edit</a></td>    
-                                <td><a href="/centers/{{$center->id}}/edit">Delete</a></td>   
+                                <td>
+                                  <a href="javascript:void(0);" class="delete-btn">Delete</a>
+                                    <form action="/centers/{{$center->id}}" method="post">
+                                      @csrf
+                                      @method('DELETE')
+                                    </form>
+                              </td>   
                                 <td><a href="/user/{{$center->id}}/password">Set Password</a></td>     
                             <tr>
                         @empty
