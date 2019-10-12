@@ -51,13 +51,49 @@ class HomeController extends Controller
         
         $centerCollectiveData = User::where('role', 'center')->selectRaw('users.is_active, count(id) as total')->groupBy('users.is_active')->get();
 
+        $partners = DB::select("SELECT distinct(partners) as partners FROM users WHERE partners IS NOT NULL");
+        
 
-        return view('home', compact('students', 'studentCollectiveData', 'centerCollectiveData', 'page'));
+        return view('home', compact('students', 'studentCollectiveData', 'centerCollectiveData', 'page', 'partners'));
     }
 
-    public function getCenterData()
+
+    public function StudentInfo(Request $request)
     {
-        $centers = DB::select("SELECT centers.first_name, count(students.id) as total FROM `users` centers LEFT JOIN `users` students ON centers.id = students.parent_id WHERE centers.role = 'center' group by centers.id");
+
+        $conditions = "";
+        $partner = $request['partner'];
+        if(!empty($partner) && $partner != "all")
+        {
+            $conditions = " AND center.partners = '".$partner."' ";
+        }
+
+        $studentCollectiveData = DB::select("SELECT students.is_active, count(students.id) as total FROM users students LEFT JOIN users center ON center.id = students.parent_id WHERE students.role = 'student' ".$conditions." group by students.is_active ");
+        
+        $centerQuery = User::where('role', 'center')->selectRaw('users.is_active, count(id) as total');
+        if($conditions != "")
+        {
+            $centerQuery->where('partners', $partner);
+        }
+        
+        $centerCollectiveData = $centerQuery->groupBy('users.is_active')->get();
+
+        return response()
+            ->json([
+                $studentCollectiveData, $centerCollectiveData
+            ]);
+    }
+
+    public function getCenterData(Request $request)
+    {
+        $conditions = " ";
+        $partner = $request['partner'];
+        if(!empty($partner) && $partner != "all")
+        {
+            $conditions = " AND centers.partners = '".$partner."' ";
+        }
+        $centers = DB::select("SELECT centers.first_name, count(students.id) as total FROM `users` centers LEFT JOIN `users` students ON centers.id = students.parent_id WHERE centers.role = 'center'  ".$conditions." group by centers.id");
+        // echo "SELECT centers.first_name as total FROM `users` centers LEFT JOIN `users` students ON centers.id = students.parent_id WHERE centers.role = 'center' ".$conditions." group by centers.id";
         return response()
             ->json($centers);
     }
@@ -87,6 +123,19 @@ class HomeController extends Controller
             ->json([$actInact, $maleFemale, $marriedstatus]);
 
 
+    }
+
+    public function getMaleFemaleData(Request $request)
+    {
+        $conditions = " ";
+        $partner = $request['partner'];
+        if(!empty($partner) && $partner != "all")
+        {
+            $conditions = " AND center.partners = '".$partner."' ";
+        }
+        $maleFemale = DB::select("SELECT students.gender, Count(students.id) as total FROM users students LEFT JOIN users center ON center.id = students.parent_id WHERE students.role = 'student' ".$conditions."  group by students.gender ");
+        return response()
+            ->json($maleFemale);
     }
 
     public function dbScript()

@@ -163,9 +163,9 @@ to get the desired effect
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
+        <!-- <div class="image">
           <img src="/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-        </div>
+        </div> -->
         <div class="info">
           <a href="#" class="d-block">{{ Auth::user()->name() }}</a>
         </div>
@@ -298,16 +298,21 @@ $(function () {
 
   var ticksStyle = {
     fontColor: '#495057',
-    fontStyle: 'bold'
+    fontStyle: 'bold',
+    autoSkip: false
   }
 
   var mode      = 'index'
   var intersect = true
-  
-@if(Auth::user()->isAdmin())
 
+var salesChart;
+var myPieChart;
+
+function getcenter(pval)
+{
   $.ajax({
     url: '/getcenters',
+    data: {'partner':pval},
     success: function(data){
       //data = $.parseJSON(data);
       var lbls = [];
@@ -319,8 +324,15 @@ $(function () {
           colors.push(getRandomColor());
       })
 
+      console.log(vals);
+      
+      if(salesChart)
+      {
+        salesChart.destroy();
+      }
+
       var $salesChart = $('#sales-chart')
-      var salesChart  = new Chart($salesChart, {
+      salesChart  = new Chart($salesChart, {
         type   : 'bar',
         data   : {
           labels  : lbls,
@@ -381,6 +393,11 @@ $(function () {
     }
 
   })
+}
+
+
+@if(Auth::user()->isAdmin())
+  getcenter('all');
 @endif
 
 @if(Auth::user()->isCenter())
@@ -487,7 +504,9 @@ $.ajax({
 
 @endif
 
-@if(Auth::user()->isAdmin() || Auth::user()->isCenter() )
+
+function getmalefemale(pval)
+{
   var month = new Array();
   month[0] = "January";
   month[1] = "February";
@@ -504,82 +523,124 @@ $.ajax({
 
 
   $.ajax({
-    url : '/getyeardata',
+    url : '/getmalefemale',
+    data: {'partner':pval},
     success: function(data) {
-
-        var lbls = month;
         var vals = [];
-        var colors = [];
-        for(var i =0; i<12; i++)
-        {
-          vals[i] = 0;
-        }
+        var lbls = ['Male', 'Female'];
+        var malefemaleVals = [0, 0];
         $.each(data, function(i, v){
-            vals[v.monthno-1] = v.total;
-            colors.push(getRandomColor());
-        });
-
-        var $visitorsChart = $('#visitors-chart')
-        var visitorsChart  = new Chart($visitorsChart, {
-          data   : {
-            labels  : lbls,
-            datasets: [{
-              type                : 'line',
-              data                : vals,
-              backgroundColor     : 'transparent',
-              borderColor         : colors,
-              pointBorderColor    : colors,
-              pointBackgroundColor: colors,
-              fill                : false
-            }]
-          },
-          options: {
-            maintainAspectRatio: false,
-            tooltips           : {
-              mode     : mode,
-              intersect: intersect
-            },
-            hover              : {
-              mode     : mode,
-              intersect: intersect
-            },
-            legend             : {
-              display: false
-            },
-            scales             : {
-              yAxes: [{
-                // display: false,
-                gridLines: {
-                  display      : true,
-                  lineWidth    : '4px',
-                  color        : 'rgba(0, 100, 255, .8)',
-                  zeroLineColor: 'transparent'
-                },
-                ticks    : $.extend({
-                  beginAtZero : true,
-                  suggestedMax: 200
-                }, ticksStyle)
-              }],
-              xAxes: [{
-                display  : true,
-                gridLines: {
-                  display: false
-                },
-                ticks    : ticksStyle
-              }]
-            }
+          if(v.gender == "Male")
+          {
+            vals[0] = v.total
+          }else {
+            vals[1] = v.total
           }
         })
 
 
+        // for(var i =0; i<12; i++)
+        // {
+        //   vals[i] = 0;
+        // }
+        // $.each(data, function(i, v){
+        //     vals[v.monthno-1] = v.total;
+        //     colors.push(getRandomColor());
+        // });
 
+        if(myPieChart)
+        {
+          myPieChart.destroy();
+        }
+
+        var ctx = $('#visitors-chart')
+        myPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                  labels  : lbls,
+                  datasets: [
+                    {
+                      "data": vals,
+                      "backgroundColor":["#ff0000","#00EE00"]
+                    }
+                  ]
+                }
+        });
 
     }
 
 
   })
+}
 
-  @endif
+@if(Auth::user()->isAdmin() )
+  getmalefemale('all');
+@endif
+
+
+
+  if($('.select-partner').length > 0)
+  {
+    $('.select-partner').on('change', function(){
+
+      var value = $(this).val();
+      getcenter(value);
+      getmalefemale(value);
+      $.ajax({
+        url: '/studentcenterinfo',
+        data: {'partner': value},
+        success: function(data){
+
+          var activestudents = 0;
+          var inactivestudents = 0;
+          var totalstudents = 0;
+
+          var activecenters = 0;
+          var inactivecenters = 0;
+          var totalcenters = 0;
+
+          var studentdata = data[0];
+          
+          var centerdata = data[1];
+
+          $.each(studentdata, function(k, v){
+            if(v.is_active == 0){
+              inactivestudents = v.total
+            }
+            if(v.is_active == 1){
+              activestudents = v.total
+            }
+
+          })
+          totalstudents = inactivestudents + activestudents;
+          $.each(centerdata, function(k, v){
+            if(v.is_active == 0){
+              inactivecenters = v.total
+            }
+            if(v.is_active == 1){
+              activecenters = v.total
+            }
+
+          })
+
+          totalcenters = inactivecenters + activecenters;
+
+          $('#total-students').html(totalstudents);
+          $('#InActiveStudent').html('('+inactivestudents+')');
+          $('#ActiveStudent').html('('+activestudents+')');
+
+          $('#total-centers').html(totalcenters);
+          $('#InActiveCenter').html('('+inactivecenters+')');
+          $('#ActiveCenter').html('('+activecenters+')');
+
+
+        }
+      })
+      
+
+
+    });
+  }
 
   
 })

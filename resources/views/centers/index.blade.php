@@ -50,7 +50,7 @@
                       <th colspan="3">Action</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody style="font-size:0.93rem;">
                         @forelse($centers as $center)
                             <tr  class="@if($center->is_active == 0) bg-danger @else bg-success  @endif " >
                             <td>{{ ($centers->currentpage()-1) * $centers->perpage() + $loop->index + 1 }}</td>        
@@ -69,7 +69,7 @@
                                       @method('DELETE')
                                     </form>
                               </td>   
-                                <td><a href="/user/{{$center->id}}/password">Set Password</a></td>     
+                                <td><a href="/user/{{$center->id}}/password">Password</a></td>     
                             <tr>
                         @empty
                             <tr>

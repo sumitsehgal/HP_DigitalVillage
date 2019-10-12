@@ -36,7 +36,7 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0" >
-                <table class="table">
+                <table class="table" style="font-size:0.93rem;">
                   <thead>
                     <tr>
                       <th>ID</th>

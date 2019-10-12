@@ -38,6 +38,10 @@ Route::get('/dbmigration', 'HomeController@dbScript');
 Route::get('/getcenters', 'HomeController@getCenterData');
 Route::get('/getyeardata', 'HomeController@getYearData');
 
+
+Route::get('/getmalefemale', 'HomeController@getMaleFemaleData');
+Route::get('/studentcenterinfo', 'HomeController@StudentInfo');
+
 Route::get('/centerdashboard', 'HomeController@centerdashboard');
 
 
