@@ -57,7 +57,7 @@
                   <i class="ion ion-person-add"></i>
                 </div>
                 <a href="javascript:void(0);" class="small-box-footer">
-                @foreach($studentCollectiveData as $dt) <span style="display:block;"><b>{{$dt->getStatus()}} </b><span id="{{$dt->getStatus()}}Student">({{$dt->total}}) </span><i class="fas fa-user"></i> </span> @endforeach
+                @foreach($studentCollectiveData as $dt) <span style="display:block;"><b>{{$dt->getStatus()}} </b><span id="{{$dt->getStatus()}}Student">({{$dt->total}}) </span> </span> @endforeach
                 </a>
               </div>
               
@@ -89,7 +89,7 @@
                     <i class="ion ion-home"></i>
                   </div>
                   <a href="javascript:void(0);" class="small-box-footer">
-                  @foreach($centerCollectiveData as $dt) <span style="display:block;"><b>{{$dt->getStatus()}} </b><span id="{{$dt->getStatus()}}Center">({{$dt->total}}) </span><i class="fas fa-home"></i> </span> @endforeach
+                  @foreach($centerCollectiveData as $dt) <span style="display:block;"><b>{{$dt->getStatus()}} </b><span id="{{$dt->getStatus()}}Center">({{$dt->total}}) </span> </span> @endforeach
                   </a>
                 </div>
 

@@ -50,7 +50,7 @@
                   </thead>
                   <tbody>
                         @forelse($students as $student)
-                            <tr  class="@if($student->is_active == 0) bg-danger @else bg-success  @endif " >
+                            <tr  class="@if($student->is_active == 0) bg-danger @else tr-class  @endif " >
                                 <td>{{ ($students->currentpage()-1) * $students->perpage() + $loop->index + 1 }}</td>    
                                 <td>{{$student->name()}}</td>    
                                 <td>{{$student->username}}</td>        

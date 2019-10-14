@@ -167,7 +167,7 @@ to get the desired effect
           <img src="/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div> -->
         <div class="info">
-          <a href="#" class="d-block">{{ Auth::user()->name() }}</a>
+          <!-- <a href="#" class="d-block">{{ Auth::user()->name() }}</a> -->
         </div>
       </div>
 
@@ -278,6 +278,7 @@ to get the desired effect
 
 <!-- OPTIONAL SCRIPTS -->
 <script src="/plugins/chart.js/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
 <script src="/dist/js/demo.js"></script>
 
 @if(isset($page) && $page == "Home")
@@ -323,8 +324,6 @@ function getcenter(pval)
           vals.push(v.total);
           colors.push(getRandomColor());
       })
-
-      console.log(vals);
       
       if(salesChart)
       {
@@ -346,6 +345,23 @@ function getcenter(pval)
         },
         options: {
           maintainAspectRatio: false,
+          plugins: {
+                    datalabels: {
+                        formatter: (value, ctx) => {
+                            let sum = 0;
+                            let dataArr = ctx.chart.data.datasets[0].data;
+                            dataArr.map(data => {
+                                sum += data;
+                            });
+                            let percentage = (value*100 / sum).toFixed(2)+"%";
+                            return "";
+                        },
+                        color: '#000',
+                        font:{
+                          size: '16'
+                        }
+                    }
+                },
           tooltips           : {
             mode     : mode,
             intersect: intersect
@@ -561,10 +577,32 @@ function getmalefemale(pval)
                   datasets: [
                     {
                       "data": vals,
-                      "backgroundColor":["#ff0000","#00EE00"]
+                      "backgroundColor":["#4C649B","#3FA982"]
                     }
                   ]
+                },
+            options: {
+                tooltips: {
+                    enabled: false
+                },
+                plugins: {
+                    datalabels: {
+                        formatter: (value, ctx) => {
+                            let sum = 0;
+                            let dataArr = ctx.chart.data.datasets[0].data;
+                            dataArr.map(data => {
+                                sum += data;
+                            });
+                            let percentage = (value*100 / sum).toFixed(2)+"%";
+                            return percentage;
+                        },
+                        color: '#000',
+                        font:{
+                          size: '16'
+                        }
+                    }
                 }
+            }
         });
 
     }

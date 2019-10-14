@@ -52,7 +52,7 @@
                   </thead>
                   <tbody style="font-size:0.93rem;">
                         @forelse($centers as $center)
-                            <tr  class="@if($center->is_active == 0) bg-danger @else bg-success  @endif " >
+                            <tr  class="@if($center->is_active == 0) bg-danger @else tr-class  @endif " >
                             <td>{{ ($centers->currentpage()-1) * $centers->perpage() + $loop->index + 1 }}</td>        
                                 <td>{{$center->name()}}</td>    
                                 <td>{{$center->username}}</td>        
