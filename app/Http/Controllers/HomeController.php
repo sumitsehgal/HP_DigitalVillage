@@ -141,7 +141,7 @@ class HomeController extends Controller
     public function dbScript()
     {
         set_time_limit(0);
-        $allCenters = DB::connection('mysql2')->select("Select * from membership where user_level = 4 AND id >= 96");
+        $allCenters = DB::connection('mysql2')->select("Select * from membership where user_level = 4");
         if(count($allCenters) > 0)
         {
             foreach($allCenters as $center)
@@ -151,7 +151,7 @@ class HomeController extends Controller
                     'first_name' => $center->first_name,
                     'email' => $center->email_addres,
                     'username' => 'C-'.$center->user_name,
-                    'password' => 'digitalclassroom@123',
+                    'password' => bcrypt('password'),
                     'phone' => $center->phone,
                     'address' => $center->address,
                     'city' => $center->city,
