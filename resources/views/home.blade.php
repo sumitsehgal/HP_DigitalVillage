@@ -17,6 +17,7 @@
 
 <div class="content">
       <div class="container-fluid">
+        @if(Auth::user()->isAdmin())
         <div class="row">
           <div class="col-md-7"></div>
           <div class="col-md-5">
@@ -31,6 +32,7 @@
             </select>
           </div>
         </div>
+        @endif
 
         <!-- Other Stat -->
 
