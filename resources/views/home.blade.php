@@ -48,7 +48,7 @@
               </div>
               <!-- /.info-box -->
               @endforeach
-              <div class="small-box bg-danger">
+              <div class="small-box bg-aqua">
                 <div class="inner">
                   <h3 id="total-students">{{$studentCollectiveData->sum('total')}}</h3>
                   <p>Number of Students</p>
@@ -80,7 +80,7 @@
                 </div>
                 <!-- /.info-box -->
                 @endforeach
-                <div class="small-box bg-success">
+                <div class="small-box bg-sweet">
                   <div class="inner">
                     <h3 id="total-centers">{{$centerCollectiveData->sum('total')}}</h3>
                     <p>Total Classrooms</p>

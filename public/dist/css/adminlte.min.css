@@ -14,3 +14,5 @@
 
 tr.bg-danger td a{color: #fff;text-decoration:underline;}
 tr.tr-class td a{color: #000;text-decoration:underline;}
+.small-box.bg-aqua {background-color: #0fc0ca;}
+.small-box.bg-sweet {background-color: #aaddaa;}

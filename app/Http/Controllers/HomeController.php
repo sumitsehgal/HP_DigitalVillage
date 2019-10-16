@@ -141,7 +141,7 @@ class HomeController extends Controller
     public function dbScript()
     {
         set_time_limit(0);
-        $allCenters = DB::connection('mysql2')->select("Select * from membership where user_level = 4");
+        $allCenters = DB::connection('mysql2')->select("Select * from membership where user_level = 4 AND id >= 96");
         if(count($allCenters) > 0)
         {
             foreach($allCenters as $center)
@@ -150,8 +150,8 @@ class HomeController extends Controller
                $newCenter = User::create([
                     'first_name' => $center->first_name,
                     'email' => $center->email_addres,
-                    'username' => $center->user_name,
-                    'password' => bcrypt($center->user_name),
+                    'username' => 'C-'.$center->user_name,
+                    'password' => 'digitalclassroom@123',
                     'phone' => $center->phone,
                     'address' => $center->address,
                     'city' => $center->city,
@@ -166,7 +166,7 @@ class HomeController extends Controller
                     'created_at' => $center->register_date,
                     'is_active' => $center->active_status
                 ]);
-
+                echo "Added ".$newCenter->first_name." with Id: ".$newCenter->id."<br/>";
                 $centerStudent = DB::connection('mysql2')->select("Select * from customer where center_id = ".$center->id);
                 $chunks = array_chunk($centerStudent, 1000);
                 if(!empty($chunks))
@@ -189,8 +189,8 @@ class HomeController extends Controller
                                     'middle_name' => $student->m_name,
                                     'last_name' => $student->l_name,
                                     'email' => $student->email,
-                                    'username' => strtolower(str_replace(' ', '_',trim($student->f_name))).$student->id,
-                                    'password' => bcrypt($student->email),
+                                    'username' => 'S-'.$student->id,
+                                    'password' => bcrypt('digitalclassroom'),
                                     'phone' => $student->phone,
                                     'gender' => $student->gender == "" ? "Male" : $student->gender,
                                     'address' => $student->address,
@@ -207,7 +207,7 @@ class HomeController extends Controller
                                     'residence' => $student->residence,
                                     'residence_type' => $student->residence_type == "" ? "Pakka Ghar" : $student->residence_type,
                                     'physical_disability' => $student->physical_disability == "" ? "No" : $student->physical_disability,
-                                    'martial_status' => $student->marital_status == "" ? "Single" : $student->marital_status,
+                                    'martial_status' => $student->marital_status == "" ? "Single" : ucfirst($student->marital_status),
                                     'bank_name' => $student->bank_name,
                                     'account_no' => $student->account_number,
                                     'bank_location' => $student->location,
