@@ -93,7 +93,7 @@ class StudentController extends Controller
     {
         $validatedData = $request->validate([
             'first_name' => 'required',
-            'email' => 'required|unique:users|max:255|email',
+            'email' => 'required|max:255|email',
             'username' => 'required|unique:users|max:255',
             'password' => 'required|confirmed'
         ]);
@@ -149,7 +149,7 @@ class StudentController extends Controller
         $student = User::find($id);
         $validatedData = $request->validate([
             'first_name' => 'required',
-            'email' => 'required|unique:users,email,'.$id.'|max:255|email',
+            'email' => 'required|max:255|email',
             'username' => 'required|unique:users,username,'.$id.'|max:255',
         ]);
 

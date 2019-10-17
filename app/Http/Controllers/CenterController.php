@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\UserRegistration;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Mail;
 
 class CenterController extends Controller
 {
@@ -88,7 +90,7 @@ class CenterController extends Controller
 
         $validatedData = $request->validate([
             'first_name' => 'required',
-            'email' => 'required|unique:users|max:255|email',
+            'email' => 'required|max:255|email',
             'username' => 'required|unique:users|max:255',
             'password' => 'required|confirmed'
         ]);
@@ -96,8 +98,15 @@ class CenterController extends Controller
         $center = User::create($request->all());
         $center->parent_id = Auth::user()->id;
         $center->role = "center";
+        $password = $center->password;
         $center->password = bcrypt($center->password);
         $center->save();
+
+
+        $admin = User::find($center->parent_id);
+
+        Mail::to($center->email)->send(new UserRegistration($center, $admin, $password));
+
         return redirect('/centers/');
     }
 
@@ -137,7 +146,7 @@ class CenterController extends Controller
         $center = User::find($id);
         $validatedData = $request->validate([
             'first_name' => 'required',
-            'email' => 'required|unique:users,email,'.$id.'|max:255|email',
+            'email' => 'required|max:255|email',
             'username' => 'required|unique:users,username,'.$id.'|max:255',
         ]);
         $center->update($request->all());

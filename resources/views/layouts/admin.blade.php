@@ -6,6 +6,7 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
   <title>Digital Class Room</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
@@ -35,12 +36,12 @@ to get the desired effect
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
+      <!-- <li class="nav-item d-none d-sm-inline-block">
         <a href="/home" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="/contact_us" class="nav-link">Contact</a>
-      </li>
+      </li> -->
     </ul>
 
     <!-- SEARCH FORM -->
@@ -470,7 +471,7 @@ $.ajax({
               datasets: [
                 {
                   "data": malefemaleVals,
-                  "backgroundColor":["#00bfff","#FFC0CB"]
+                  "backgroundColor":["#4C649B","#3FA982"]
                 }
               ]
             }
@@ -687,7 +688,16 @@ function getmalefemale(pval)
 
 </script>
 @endif
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+$(document).ready(function(){
+  if($('.datepicker').length > 0)
+  {
+    $('.datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
+  }
+})
 
+</script>
 <!-- <script src="/dist/js/pages/dashboard3.js"></script> -->
 </body>
 </html>

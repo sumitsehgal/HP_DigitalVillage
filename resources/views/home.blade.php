@@ -217,7 +217,7 @@
 
 
 
-          <div class="col-lg-4">
+          <div class="col-lg-4" style="display:none;">
                 <div class="card">
                   <div class="card-header border-0">
                     <div class="d-flex justify-content-between">
