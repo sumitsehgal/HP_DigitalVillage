@@ -437,6 +437,16 @@ jQuery(document).ready(function () {
                });  
   }); 
 
+
+ 
+
+jQuery('#popup-admin-login-form input').keypress(function (e) {
+    console.log('test');
+  if (e.which == 13) {
+    jQuery('#popup-admin-login-btn').click();
+  }
+});
+
   jQuery('#popup-admin-login-btn').click(function( event ) {  
   
 			   jQuery.ajax({
