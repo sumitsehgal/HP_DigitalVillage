@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -68,6 +69,23 @@ class User extends Authenticatable
     public function parent()
     {
         return $this->belongsTo(User::class, 'parent_id');
+    }
+
+    public static function generateUsername($firstname, $prefix="S-")
+    {   
+        $lastId= self::orderBy('id', 'desc')->first()->id;
+        $uniqId = $lastId + rand(1,8000);
+        $username = $prefix.$uniqId; 
+        if(self::checkUsernameExists($username))
+        {
+            return self::generateUsername($firstname, $prefix);
+        }
+        return $username;
+    }
+
+    public static function checkUsernameExists($username)
+    {
+        return self::where('username', $username)->exists();
     }
 
 

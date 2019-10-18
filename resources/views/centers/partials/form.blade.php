@@ -43,6 +43,20 @@
                         </div>
                     </div>
                 @endif
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Select Partner</label>
+                            <select class="form-control" name="partners">
+                                @if(!empty($partners))
+                                    @foreach($partners as $partner)
+                                        <option value="{{$partner->partners}}" @if(strtolower($partner->partners) == strtolower($center->partners)) selected="selected"  @endif  >  {{$partner->partners}}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
                   <hr/>
 

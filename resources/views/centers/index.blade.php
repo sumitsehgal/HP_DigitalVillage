@@ -36,6 +36,8 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0" >
+              @include('partials.flash')
+              <br/>
                 <table class="table">
                   <thead>
                     <tr>

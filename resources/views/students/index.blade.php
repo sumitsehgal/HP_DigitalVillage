@@ -36,15 +36,18 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0" >
+                @include('partials.flash')
+                <br/>
                 <table class="table" style="font-size:0.93rem;">
                   <thead>
                     <tr>
                       <th>ID</th>
                       <th>Name</th>
                       <th>Login ID</th>
+                      <th>Email</th>
                       <th>Phone</th>
                       <th>Status</th>
-                      <th>Center Head</th>
+                      <th>Center</th>
                       <th colspan="3">Action</th>
                     </tr>
                   </thead>
@@ -54,6 +57,7 @@
                                 <td>{{ ($students->currentpage()-1) * $students->perpage() + $loop->index + 1 }}</td>    
                                 <td>{{$student->name()}}</td>    
                                 <td>{{$student->username}}</td>        
+                                <td>{{$student->email}}</td>        
                                 <td>{{$student->phone}}</td>    
                                 <td>{{$student->getStatus()}}</td>   
                                 <td>@if($student->parent) {{$student->parent->name()}} @endif</td>    
@@ -65,7 +69,7 @@
                                       @method('DELETE')
                                     </form>
                                 </td>  
-                                <td><a href="/user/{{$student->id}}/password">Change Password</a></td>    
+                                <td><a href="/user/{{$student->id}}/password">Password</a></td>    
                             <tr>
                         @empty
                             <tr>

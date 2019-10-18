@@ -91,12 +91,32 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $validationRules = [
             'first_name' => 'required',
             'email' => 'required|max:255|email',
-            'username' => 'required|unique:users|max:255',
-            'password' => 'required|confirmed'
-        ]);
+        ];
+        /** Dynamic Validation */
+        if(empty($request['username']))
+        {
+            $request['username'] = User::generateUsername($request['first_name'], 'S-');
+        }
+        else
+        {
+            $validationRules['username'] = 'required|unique:users|max:255';
+        }
+
+
+        if(empty($request["password"]))
+        {
+            $request['password'] = uniqid();
+        }
+        else
+        {
+            $validationRules['password'] = 'required|confirmed';
+        }
+
+        $validatedData = $request->validate($validationRules);
+        
 
         $student = User::create($request->all());
         if(empty($student->parent_id))
@@ -109,7 +129,7 @@ class StudentController extends Controller
         $center = User::find($student->parent_id);
 
         Mail::to($student->email)->send(new UserRegistration($student, $center, $password));
-        return redirect('/students/');
+        return redirect('/students/')->with('success', 'Student added successfully.');
     }
 
     /**
@@ -154,7 +174,7 @@ class StudentController extends Controller
         ]);
 
         $student->update($request->all());
-        return redirect('/students/');
+        return redirect('/students/')->with('success', "Student record updated successfully.");
     }
 
     /**
@@ -170,8 +190,8 @@ class StudentController extends Controller
         if($user->isAdmin() || ( $user->isCenter() && $user->id == $deletedUser->parent_id ))
         {
             $deletedUser->delete();
-            return Redirect::back()->withErrors(['msg', 'The User has been deleted.']);
+            return redirect('/students/')->with('error', 'The Student has been deleted.');
         }
-        return Redirect::back()->withErrors(['msg', 'The User can not be deleted.']);        
+        return redirect('/students/')->with('warning', 'The Student can not be deleted!');        
     }
 }

@@ -6,6 +6,7 @@ use App\Mail\UserRegistration;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Mail;
 
@@ -76,7 +77,8 @@ class CenterController extends Controller
     public function create()
     {
         $center = new User();
-        return view('centers.create', compact('center'));
+        $partners = DB::select("SELECT distinct(partners) as partners FROM users WHERE partners IS NOT NULL");
+        return view('centers.create', compact('center', 'partners'));
     }
 
     /**
@@ -87,13 +89,32 @@ class CenterController extends Controller
      */
     public function store(Request $request)
     {
-
-        $validatedData = $request->validate([
+        $validationRules = [
             'first_name' => 'required',
             'email' => 'required|max:255|email',
-            'username' => 'required|unique:users|max:255',
-            'password' => 'required|confirmed'
-        ]);
+        ];
+
+         /** Dynamic Validation */
+        if(empty($request['username']))
+        {
+            $request['username'] = User::generateUsername($request['first_name'], 'C-');
+        }
+        else
+        {
+            $validationRules['username'] = 'required|unique:users|max:255';
+        }
+
+
+        if(empty($request["password"]))
+        {
+            $request['password'] = uniqid();
+        }
+        else
+        {
+            $validationRules['password'] = 'required|confirmed';
+        }
+
+        $validatedData = $request->validate($validationRules);
 
         $center = User::create($request->all());
         $center->parent_id = Auth::user()->id;
@@ -107,7 +128,7 @@ class CenterController extends Controller
 
         Mail::to($center->email)->send(new UserRegistration($center, $admin, $password));
 
-        return redirect('/centers/');
+        return redirect('/centers/')->with('success', "Center added successfully.");
     }
 
     /**
@@ -130,8 +151,9 @@ class CenterController extends Controller
     public function edit($id)
     {
         $center = User::findOrFail($id);
+        $partners = DB::select("SELECT distinct(partners) as partners FROM users WHERE partners IS NOT NULL");
 
-        return view('centers.edit', compact('center'));
+        return view('centers.edit', compact('center', 'partners'));
     }
 
     /**
@@ -150,7 +172,7 @@ class CenterController extends Controller
             'username' => 'required|unique:users,username,'.$id.'|max:255',
         ]);
         $center->update($request->all());
-        return redirect('/centers/');
+        return redirect('/centers/')->with('success', "Center record updated successfully.");
 
     }
 
@@ -167,8 +189,8 @@ class CenterController extends Controller
         if($user->isAdmin() || ( $user->isCenter() && $user->id == $deletedUser->parent_id ))
         {
             $deletedUser->delete();
-            return Redirect::back()->withErrors(['msg', 'The Center has been deleted.']);
+            return redirect('/centers/')->with('error', 'The Center has been deleted.');
         }
-        return Redirect::back()->withErrors(['msg', 'The Center can not be deleted.']);        
+        return redirect('/centers/')->with('error', 'The Center can not be deleted.');
     }
 }

@@ -30,7 +30,7 @@
                 <form role="form" method="post" action="/students/{{$student->id}}">
                 @method('PATCH')
                 @csrf
-                  @include('students.partials.form')
+                @include('students.partials.form')
 
                   <button type="submit" class="btn btn-info">Save</button>
                 
