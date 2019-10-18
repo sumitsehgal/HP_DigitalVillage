@@ -26,6 +26,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('users', 'UserController');
 Route::resource('centers', 'CenterController');
+Route::resource('courses', 'CourseController');
+Route::resource('blogs', 'BlogController');
 Route::resource('students', 'StudentController');
 Route::get('/change-password', 'UserController@changepassword');
 Route::post('/storepassword', 'UserController@storepassword');

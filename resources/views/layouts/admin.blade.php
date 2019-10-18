@@ -215,6 +215,21 @@ to get the desired effect
                 </a>
               </li>
 
+
+              <li class="nav-item">
+                <a href="/courses" class="nav-link">
+                <i class="nav-icon fas fa-window-restore"></i>
+                  <p>Courses</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="/blogs" class="nav-link">
+                <i class="nav-icon fas fa-book"></i>
+                  <p>Blogs</p>
+                </a>
+              </li>
+
               <li class="nav-item">
                 <a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link">
                 <i class="nav-icon far fa-circle text-danger"></i>
