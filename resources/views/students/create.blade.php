@@ -27,7 +27,7 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <form role="form" method="post" action="/students">
+                <form role="form" method="post" action="/students" enctype="multipart/form-data">
                 @csrf
                   @include('students.partials.form')
 

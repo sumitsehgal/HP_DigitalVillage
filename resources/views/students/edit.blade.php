@@ -27,7 +27,7 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <form role="form" method="post" action="/students/{{$student->id}}">
+                <form role="form" method="post" action="/students/{{$student->id}}" enctype="multipart/form-data">
                 @method('PATCH')
                 @csrf
                 @include('students.partials.form')

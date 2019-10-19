@@ -60,6 +60,31 @@
     </div>
 @endif
 
+<div class="row">
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label for="">Upload Profile Image</label>
+            <input type="file" name="avatarfile" class="form-control avatar" accept="image/x-png,image/gif,image/jpeg" />
+        </div>
+    </div>
+    @if(!empty($student->id))
+        <div class="col-sm-6">
+            @if(!empty($student->avatar))
+                <img src="{{ Storage::url($student->avatar) }}" height="200" width="200" class="img-responsive img-thumbnail" />  
+                <input type="hidden" value="{{$student->avatar}}" name="avatar" />
+            @else
+                @if($student->gender == "Female")
+                    <img src="{{ Storage::url('public/female.png') }}" height="200" width="200" class="img-responsive img-thumbnail" />  
+                @else
+                    <img src="{{ Storage::url('public/male.jpg') }}" height="200" width="200" class="img-responsive img-thumbnail" />  
+                @endif
+            @endif
+        </div>
+    @endif
+
+</div>
+
+
 <hr/>
 
 <div class="row">
@@ -78,7 +103,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             <label>Date of Birth</label>
-            <input type="text" class="form-control datepicker" name="date_of_birth" value="{{old('date_of_birth') ?? $student->date_of_birth }}" />
+            <input type="text" class="form-control datepicker" name="date_of_birth" value="{{old('date_of_birth') ?? $student->date_of_birth }}" autocomplete="off" />
         </div>
     </div>
 </div>

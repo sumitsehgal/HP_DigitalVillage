@@ -116,6 +116,13 @@ class StudentController extends Controller
         }
 
         $validatedData = $request->validate($validationRules);
+
+        $file = $request->avatarfile;
+        if(!empty($file))
+        {
+            $request["avatar"] = $file->store('public');
+            unset($request["avatarfile"]);
+        }
         
 
         $student = User::create($request->all());
@@ -172,6 +179,13 @@ class StudentController extends Controller
             'email' => 'required|max:255|email',
             'username' => 'required|unique:users,username,'.$id.'|max:255',
         ]);
+
+        $file = $request->avatarfile;
+        if(!empty($file))
+        {
+            $request["avatar"] = $file->store('public');
+            unset($request["avatarfile"]);
+        }
 
         $student->update($request->all());
         return redirect('/students/')->with('success', "Student record updated successfully.");
