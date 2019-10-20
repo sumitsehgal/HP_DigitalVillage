@@ -370,7 +370,9 @@
                       {{$student->username}}
                     </td>
                     <td>
-                      {{$student->parent->name()}}
+                      @if($student->parent)
+                        {{$student->parent->name()}}
+                      @endif
                     </td>
                   </tr>
                   @endforeach
