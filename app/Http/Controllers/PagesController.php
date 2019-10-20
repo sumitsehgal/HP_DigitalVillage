@@ -90,4 +90,49 @@ class PagesController extends Controller
         ]);
     }
 
+    public function admin()
+    {
+        $this->page_slug = "admin";
+
+        return view('pages.admin')->with([
+            'page_slug' => $this->page_slug,
+        ]);
+    }
+
+    public function hp_videobook()
+    {
+        $this->page_slug = "hp_videobook";
+
+        return view('pages.hp_videobook')->with([
+            'page_slug' => $this->page_slug,
+        ]);
+    }
+
+    public function popular_posts()
+    {
+        $this->page_slug = "popular_posts";
+
+        return view('pages.popular_posts')->with([
+            'page_slug' => $this->page_slug,
+        ]);
+    }
+
+    public function categories()
+    {
+        $this->page_slug = "categories";
+
+        return view('pages.categories')->with([
+            'page_slug' => $this->page_slug,
+        ]);
+    }
+
+    public function popular_tags()
+    {
+        $this->page_slug = "popular_tags";
+
+        return view('pages.popular_tags')->with([
+            'page_slug' => $this->page_slug,
+        ]);
+    }
+
 }

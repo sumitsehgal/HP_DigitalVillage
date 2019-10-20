@@ -58,7 +58,7 @@
                         <li><a href="/blogs" class="">Blog</a></li>
                         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-user"></i>   {{ Auth::user()->name() }} <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/home" class="">Dashboard</a></li>
+                                <li><a href="/admin" class="">Dashboard</a></li>
                                 <li><a href="#">Info</a></li>
                                 <li>
                                     <a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >Logout</a>

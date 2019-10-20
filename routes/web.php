@@ -23,6 +23,15 @@ Route::post('/post_feedback', 'PagesController@postFeedback');
 
 Auth::routes();
 
+
+Route::middleware(['auth'])->group(function () {
+   
+
+Route::get('/admin', 'PagesController@admin');
+Route::get('/hp_videobook', 'PagesController@hp_videobook');
+Route::get('/popular_posts', 'PagesController@popular_posts');
+Route::get('/categories', 'PagesController@categories');
+Route::get('/popular_tags', 'PagesController@popular_tags');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('users', 'UserController');
 Route::resource('centers', 'CenterController');
@@ -47,4 +56,5 @@ Route::get('/studentcenterinfo', 'HomeController@StudentInfo');
 Route::get('/centerdashboard', 'HomeController@centerdashboard');
 
 
+});
 
