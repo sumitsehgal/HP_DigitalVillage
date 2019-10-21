@@ -22,39 +22,11 @@
 
 <div class="content">
       <div class="container-fluid">
-        @if(Auth::user()->isAdmin())
-        <div class="row">
-          <div class="col-md-7"></div>
-          <div class="col-md-5">
-            <label>Select Partner</label>
-            <select class="form-control select-partner">
-                  <option value="all">All</option>
-              @if(!empty($partners))
-                @foreach($partners as $partner)
-                    <option value="{{$partner->partners}}">{{$partner->partners}}</option>
-                @endforeach
-              @endif
-            </select>
-          </div>
-        </div>
-        @endif
-
         <!-- Other Stat -->
 
         <div class="row">
         @if(( Auth::user()->isAdmin() || Auth::user()->isCenter()) && $studentCollectiveData->isNotEmpty() )
           <div class="col-md-3 col-sm-6 col-12">
-            @foreach($studentCollectiveData as $dt)
-              <div class="info-box" style="display:none !important;">
-                <span class="info-box-icon @if($dt->is_active == 0) bg-danger @else bg-success @endif""><i class="far fa-user"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-number">{{$dt->getStatus()}} Students</span>
-                  <span class="info-box-text">{{$dt->total}}</span>
-                </div>
-                <!-- /.info-box-content -->
-              </div>
-              <!-- /.info-box -->
-              @endforeach
               <div class="small-box bg-aqua">
                 <div class="inner">
                   <h3 id="total-students">{{$studentCollectiveData->sum('total')}}</h3>
@@ -75,18 +47,6 @@
           <!-- /.col -->
             @if(Auth::user()->isAdmin())
               <div class="col-md-3 col-sm-6 col-12">
-              @foreach($centerCollectiveData as $dt)
-                <div class="info-box" style="display:none !important;">
-                  <span class="info-box-icon @if($dt->is_active == 0) bg-danger @else bg-success @endif"><i class="far fa-flag"></i></span>
-
-                  <div class="info-box-content">
-                    <span class="info-box-number">{{$dt->getStatus()}} Centers</span>
-                    <span class="info-box-text">{{$dt->total}}</span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-                @endforeach
                 <div class="small-box bg-sweet">
                   <div class="inner">
                     <h3 id="total-centers">{{$centerCollectiveData->sum('total')}}</h3>
@@ -103,57 +63,25 @@
               </div>
             @endif
           <!-- /.col -->
-          @if(Auth::user()->isAdmin() || Auth::user()->isCenter())
-          <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box" style="display:none !important;">
-              <span class="info-box-icon bg-warning"><i class="far fa-user"></i></span>
 
-              <div class="info-box-content">
-                <span class="info-box-number">Total Students</span>
-                <span class="info-box-text">
-                  {{$studentCollectiveData->sum('total')}}
-                </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-            @endif
-            @if(Auth::user()->isAdmin())
-            <div class="info-box" style="display:none !important;">
-              <span class="info-box-icon bg-warning"><i class="far fa-flag"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-number">Total Centers</span>
-                <span class="info-box-text">{{$centerCollectiveData->sum('total')}}</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
+          <div class="col-md-1"></div>
+          @if(Auth::user()->isAdmin())
+          <div class="col-md-5">
+            <label>Select Partner</label>
+            <select class="form-control select-partner">
+                  <option value="all">All</option>
+              @if(!empty($partners))
+                @foreach($partners as $partner)
+                    <option value="{{$partner->partners}}">{{$partner->partners}}</option>
+                @endforeach
+              @endif
+            </select>
+          </div>
           @endif
 
           </div>
-          <!-- /.col -->
-          <div class="col-md-3 col-sm-6 col-12" style="visibility:hidden;">
-            <div class="info-box">
-              <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Likes</span>
-                <span class="info-box-number">93,139</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
         </div>
-
-
-
         <!-- End other stat -->
-
-
-
         <div class="row">
             @if(Auth::user()->isAdmin())
             <div class="col-lg-12">
@@ -246,11 +174,6 @@
 
           @endif
         </div>
-
-
-
-
-
 
 
         <div class="row">
