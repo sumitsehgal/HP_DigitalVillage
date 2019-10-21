@@ -208,13 +208,6 @@ to get the desired effect
               </li>
               @endif
 
-              <li class="nav-item">
-                <a href="/change-password" class="nav-link">
-                <i class="nav-icon fas fa-user-circle"></i>
-                  <p>Change Password</p>
-                </a>
-              </li>
-
 
               <li class="nav-item">
                 <a href="/courses" class="nav-link">
@@ -227,6 +220,13 @@ to get the desired effect
                 <a href="/blogs" class="nav-link">
                 <i class="nav-icon fas fa-book"></i>
                   <p>Blogs</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="/change-password" class="nav-link">
+                <i class="nav-icon fas fa-user-circle"></i>
+                  <p>Change Password</p>
                 </a>
               </li>
 
