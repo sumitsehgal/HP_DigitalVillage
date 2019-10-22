@@ -40,7 +40,7 @@ class StudentController extends Controller
                 $query = $query->wherein($key,$filter_values);
             }
         }
-        $query->orderBy('id', 'desc');
+        $query->orderBy('created_at', 'desc');
         // Basic Sorting
         if (isset($request->sort) && !empty($request->sort))
 	    {
