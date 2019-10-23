@@ -25,7 +25,6 @@ Auth::routes();
 
 
 Route::middleware(['auth'])->group(function () {
-   
 
 Route::get('/admin', 'PagesController@admin');
 Route::get('/hp_videobook', 'PagesController@hp_videobook');

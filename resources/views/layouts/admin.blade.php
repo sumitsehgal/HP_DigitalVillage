@@ -561,14 +561,22 @@ function getmalefemale(pval)
         var vals = [];
         var lbls = ['Male', 'Female'];
         var malefemaleVals = [0, 0];
+        var total = 0;
         $.each(data, function(i, v){
           if(v.gender == "Male")
           {
-            vals[0] = v.total
+            vals[0] = v.total;
+            total += v.total;
           }else {
-            vals[1] = v.total
+            vals[1] = v.total;
+            total += v.total;
           }
         })
+
+        console.log(total)
+        $('.total-stat').text(total)
+        $('.male-stat').text(vals[0])
+        $('.female-stat').text(vals[1])
 
 
         // for(var i =0; i<12; i++)

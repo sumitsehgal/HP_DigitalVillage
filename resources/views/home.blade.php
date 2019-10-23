@@ -243,14 +243,17 @@
                   <canvas id="visitors-chart" height="200"></canvas>
                 </div>
 
-                <div class="d-flex flex-row justify-content-end">
-                  <!-- <span class="mr-2">
-                    <i class="fas fa-square text-primary" style="color:rgba(0, 100, 255, .8) !important;"></i> Student Registration
-                  </span> -->
+                <div class="d-flex flex-row justify-content-center">
+                <span class="mr-2">
+                    <i class="fas fa-square" ></i> Total <span class="total-stat">0</span>
+                  </span>
+                  <span class="mr-2">
+                    <i class="fas fa-square text-primary" style="color:#4C649B !important;"></i> Male <span class="male-stat">0</span>
+                  </span>
 
-                  <!-- <span>
-                    <i class="fas fa-square text-gray"></i> Last Week
-                  </span> -->
+                  <span>
+                    <i class="fas fa-square text-gray" style="color:#3FA982 !important"></i> Female <span class="female-stat">0</span>
+                  </span>
                 </div>
               </div>
           </div>
