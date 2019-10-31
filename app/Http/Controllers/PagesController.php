@@ -135,4 +135,12 @@ class PagesController extends Controller
         ]);
     }
 
+
+    public function siteinfo(Request $request, $id)
+    {
+        $ids = explode('_', $id);
+        $studentCount = User::whereIn('parent_id', $ids)->count();
+        return response()->json(['total'=> $studentCount]);
+    }
+
 }

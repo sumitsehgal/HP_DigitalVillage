@@ -20,6 +20,7 @@ Route::get('/courses', 'PagesController@courses');
 Route::get('/contact_us', 'PagesController@contact');
 Route::post('/post_contact_us', 'PagesController@postContact');
 Route::post('/post_feedback', 'PagesController@postFeedback');
+Route::get('siteinfo/{id}', 'PagesController@siteinfo');
 
 Auth::routes();
 
